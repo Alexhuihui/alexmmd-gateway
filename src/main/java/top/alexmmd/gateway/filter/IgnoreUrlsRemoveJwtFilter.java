@@ -38,7 +38,6 @@ public class IgnoreUrlsRemoveJwtFilter implements WebFilter {
         List<String> ignoreUrls = ignoreUrlsConfig.getUrls();
         for (String ignoreUrl : ignoreUrls) {
             if (pathMatcher.match(ignoreUrl, uri.getPath())) {
-                log.info("该请求路径位于白名单内，去除token");
                 request = exchange.getRequest().mutate().header("Authorization", "").build();
                 exchange = exchange.mutate().request(request).build();
                 return chain.filter(exchange);
