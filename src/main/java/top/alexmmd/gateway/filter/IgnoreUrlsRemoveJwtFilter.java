@@ -1,5 +1,6 @@
 package top.alexmmd.gateway.filter;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
@@ -19,6 +20,7 @@ import java.util.List;
  * @author Alex 2021/12/16
  */
 @Component
+@Slf4j
 public class IgnoreUrlsRemoveJwtFilter implements WebFilter {
 
     private final IgnoreUrlsConfig ignoreUrlsConfig;
@@ -36,6 +38,7 @@ public class IgnoreUrlsRemoveJwtFilter implements WebFilter {
         List<String> ignoreUrls = ignoreUrlsConfig.getUrls();
         for (String ignoreUrl : ignoreUrls) {
             if (pathMatcher.match(ignoreUrl, uri.getPath())) {
+                log.info("该请求路径位于白名单内，去除token");
                 request = exchange.getRequest().mutate().header("Authorization", "").build();
                 exchange = exchange.mutate().request(request).build();
                 return chain.filter(exchange);
