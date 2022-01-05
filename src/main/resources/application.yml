@@ -42,6 +42,7 @@ secure:
       - "/auth/oauth/token"
       - "/auth/oauth/authorize"
       - "/auth/actuator/**"
+      - "/auth/verify/code"
       - "/user/actuator/**"
       - "/actuator/**"
       - "/user/login"
